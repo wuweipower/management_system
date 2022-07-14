@@ -1,0 +1,289 @@
+
+//获取全部课程的信息
+function getCourseAll()
+{
+  var xmlhttp;
+  if (window.XMLHttpRequest)
+  {
+    // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+    xmlhttp=new XMLHttpRequest();
+  }
+  else
+  {
+    // IE6, IE5 浏览器执行代码
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function()
+  {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+        cleanTable();
+        //console.log(xmlhttp.response);
+        var data = JSON.parse(xmlhttp.response);
+        for(var i=0;i<data.length;i++)
+        {
+            console.log(data[i]);
+            addData(data[i],1);
+        }
+
+    }
+
+  }
+  xmlhttp.open("post","http://localhost:3000/find",true);
+  xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+  //xmlhttp.send("fname=Henry&lname=Ford");\
+  xmlhttp.send("table=course");
+}
+//清除所有表格方便多次点击getall
+function cleanTable()
+{
+    var table = document.getElementById("tableCourse");
+    var children = table.childNodes;
+    for(var i=children.length-1;i>=0;i--)
+    {
+        table.removeChild(children[i]);
+    }
+}
+//将数据库的东西加入表格
+function addData(Data,t)//传入一个对象 
+{
+
+   // console.log("aaa",Data);
+    var arr = Object.keys(Data);
+    var len = arr.length;
+    var tds = [];
+    for(var i=0;i<len;i++)
+    {
+        tds.push(document.createElement("td"));
+    }
+    for(var i=0;i<len;i++)
+    {
+        //console.log("a",Data[arr[i]]);
+        tds[i].innerHTML=Data[arr[i]];
+    }
+
+
+    var table = document.getElementById("tableCourse");
+    var tr = document.createElement("tr");//一行
+    var op = document.createElement("td");
+    op.innerHTML="<a><a href='javascript:;' onclick='deleteCourse(this)'>delete</a>/<a href='javascript:;' onclick='showUpdate(this)'>update</a></a>"
+    op.id = tds[0].innerHTML;
+    tds.push(op);
+    for(var i=0;i<tds.length;i++)
+    {
+        tr.appendChild(tds[i]);
+    }
+
+    table.appendChild(tr);
+}
+
+
+
+/*********************delete************ */
+function deleteCourse(obj)
+{
+    var tr = obj.parentNode.parentNode;
+    tr.parentNode.removeChild(tr);
+    var id = obj.parentNode.id;
+    console.log(id);
+    //进行数据库的操作
+    var data ="c_id="+id+"&table=course";
+    ajaxDel(data)
+
+}
+function ajaxDel(data)
+{
+    var xmlhttp;
+  if (window.XMLHttpRequest)
+  {
+    // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+    xmlhttp=new XMLHttpRequest();
+  }
+  else
+  {
+    // IE6, IE5 浏览器执行代码
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function()
+  {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+      //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+    }
+  }
+  xmlhttp.open("POST","http://localhost:3000/delete",true);
+  xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+
+    xmlhttp.send(data);
+
+
+}
+
+/*********************delete************ */
+
+/*******************************update */
+
+function showUpdate(obj)
+{
+    $('#UpdateCourse').modal('show');
+    document.getElementById("u_id").value = obj.parentNode.id;
+   // console.log(obj.parentNode.parentNode.innerHTML)
+
+}
+function updateCourse()
+{
+    var id = document.getElementById("u_id").value;
+    var name = document.getElementById("u_name").value;
+    var t_id = document.getElementById("u_teacher_id").value;
+    var credit = document.getElementById("u_credit").value;
+    var grade = document.getElementById("u_grade").value;
+    var cancecled = document.getElementById("u_canceled_year").value;
+
+    var data = "c_id="+id+"&name="+name+"&t_id="+t_id+"&credit="+credit+"&grade="+grade+"&canceled="+cancecled+"&table=course";
+
+    ajaxUpdate(data)
+   // console.log(name);
+
+}
+
+function ajaxUpdate(data)
+{
+    var xmlhttp;
+  if (window.XMLHttpRequest)
+  {
+    // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+    xmlhttp=new XMLHttpRequest();
+  }
+  else
+  {
+    // IE6, IE5 浏览器执行代码
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function()
+  {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+      document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+    }
+  }
+  xmlhttp.open("POST","http://localhost:3000/update",true);
+  xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+
+    xmlhttp.send(data);
+}
+/************************update */
+
+
+/****************************search */
+function showCourseSearch()
+{
+   // console.log("11")
+    $('#searchCourse').modal('show');
+}
+function searchCourse()
+{
+    var id = document.getElementById('f_id').value;
+    var name = document.getElementById("f_name").value;
+    var data;
+    var api="findCourse";
+    if(id!='')
+    {
+        data = "para="+id+"&kind=id";
+    }
+    else if(name!='')
+    {
+        data = "para="+name+"&kind=name";
+    }
+    else
+    {
+        data='kind=0';
+    }
+    ajaxSearch(data,api);
+}
+function ajaxSearch(data,api)
+{
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+    {
+      // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+      xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {
+      // IE6, IE5 浏览器执行代码
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function()
+    {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      {
+        ///document.getElementById("result").innerHTML=xmlhttp.response;
+        cleanTable();
+        //console.log(xmlhttp.response);
+        var data = JSON.parse(xmlhttp.response);
+        for(var i=0;i<data.length;i++)
+        {
+            console.log(data[i]);
+            addData(data[i],1);
+        }
+      }
+    }
+    xmlhttp.open("post","http://localhost:3000/"+api,true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+  
+    xmlhttp.send(data);
+}
+/*******************search */
+
+/************InsertCourse****************/
+function showCourseInsert()
+{
+   // console.log("11")
+    $('#InsertCourse').modal('show');
+
+}
+
+function insertCourse()
+{
+    var id = document.getElementById("id").value;
+    var name = document.getElementById("name").value;
+    var teacher_id = document.getElementById("teacher_id").value;
+    var credit = document.getElementById("credit").value;
+    var grade = document.getElementById("grade").value;
+    var canceled_year = document.getElementById("canceled_year").value;
+
+    //console.log(id)
+    //var data = `id=${id}&name=${name}&sex=${sex}&entrance_age=${entrance_age}&entrance_year=${entrance_year}&clas=${clas}`;
+    var data = "c_id="+id+"&name="+name+"&t_id="+teacher_id+"&credit="+credit+"&grade="+grade+"&canceled="+canceled_year+"&table=course";
+    ajaxSend(String(data));
+}
+
+function ajaxSend(data)
+{
+    var xmlhttp;
+  if (window.XMLHttpRequest)
+  {
+    // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+    xmlhttp=new XMLHttpRequest();
+  }
+  else
+  {
+    // IE6, IE5 浏览器执行代码
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function()
+  {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+      //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+    }
+  }
+  xmlhttp.open("POST","http://localhost:3000/insert",true);
+  xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+
+    xmlhttp.send(data);
+
+    //console.log(e);
+
+}
+/*********************insert ***************/

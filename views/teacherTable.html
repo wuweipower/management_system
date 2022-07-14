@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ADMIN</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+
+<div class="container" style="margin-top:30px">
+  <div class="row">
+    <div class="col-sm-">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="./studentTable.html">Student</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="./teacherTable.html">Teacher</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./courseTable.html">Course</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="./chooseTable.html">Choose</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="./scoreTable.html">Score</a>
+        </li>
+      </ul>
+      <hr class="d-sm-none">
+    </div>
+    <div class="col-sm-8">
+      <div class="btn-group">
+              <button type="button" class="btn btn-primary" onclick="getTeacherAll()">getAll</button>
+              <button type="button" class="btn btn-primary" onclick="showTeacherSearch()">search</button>
+      </div>
+      <hr>
+      <table class="table table-bordered">
+          <thead>
+          <tr>
+              <th>teacher_id</th>
+              <th>name</th>
+              <th>courses</th>
+          </tr>
+          </thead>
+
+          <tbody id="tableTeacher">
+          </tbody>
+      </table>
+      <div id="result"></div>
+    </div>
+  </div>
+</div>
+    <!-- Search teacher -->
+    <div class="modal fade" id="SearchTeacher" tabindex="-1" role="dialog"
+     aria-hidden="true">
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal"
+                     aria-hidden="true"></button>
+                 <h4 class="modal-title" id="myModalLabel">Search</h4>
+              </div>
+              <div class="modal-body">
+              <!-- 内容主体begin -->
+                 <form action="" >
+                     <div class="form-group">
+                         <label for="id">ID</label>
+                         <input id="f_id" type="text" class="form-control" name="id" value="" required autofocus>
+                     </div>
+                     <div class="form-group">
+                         <label for="name">name</label>
+                         <input id="f_name" type="text" class="form-control" name="name" value="" required autofocus>
+                     </div>
+
+
+
+                     <button type="button" class="btn btn-primary" onclick="searchTeacher()">Search</button>
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                 </form>
+              <!-- 内容主体end -->
+              </div>
+         </div>
+     </div>
+ </div>
+
+<script src="../js/opTeacher.js"></script>
+</body>
+</html>

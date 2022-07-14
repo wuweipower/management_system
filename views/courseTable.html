@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ADMIN</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+
+<div class="container" style="margin-top:30px">
+  <div class="row">
+    <div class="col-sm-">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+            <a class="nav-link " href="./studentTable.html">Student</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./teacherTable.html">Teacher</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="./courseTable.html">Course</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="./chooseTable.html">Choose</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="./scoreTable.html">Score</a>
+        </li>
+      </ul>
+      <hr class="d-sm-none">
+    </div>
+    <div class="col-sm-8">
+		<div class="btn-group">
+            <button type="button" class="btn btn-primary" onclick="getCourseAll()">getAll</button>
+            <button type="button" class="btn btn-primary" onclick="showCourseInsert()">insert</button>
+            <button type="button" class="btn btn-primary" onclick="showCourseSearch()">search</button>
+        </div>
+		<hr>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>course_id</th>
+            <th>teacher_id</th>
+            <th>credit</th>
+            <th>grade</th>
+            <th>canceled_year</th>
+            <th>name</th>
+            <th>operations</th>
+        </tr>
+        </thead>
+
+        <tbody id="tableCourse">
+        </tbody>
+    </table>
+    <div id="result"></div>
+    </div>
+  </div>
+</div>
+<!-- Insert  -->
+    <div class="modal fade" id="InsertCourse" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true"></button>
+                    <h4 class="modal-title" id="myModalLabel">Insert Course</h4>
+                 </div>
+                 <div class="modal-body">
+                 <!-- 内容主体begin -->
+                    <form action="" >
+                        <div class="form-group">
+                            <label for="id">course_id</label>
+                            <input id="id" type="text" class="form-control" name="id" value="" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">name</label>
+                            <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="sex">teacher_id</label>
+                            <input id="teacher_id" type="text" class="form-control" name="sex" value="" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="entrance_age">credit</label>
+                            <input id="credit" type="text" class="form-control" name="entrance_age" value="" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="entrance_year">grade</label>
+                            <input id="grade" type="text" class="form-control" name="entrance_year" value="" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="class">canceled_year</label>
+                            <input id="canceled_year" type="text" class="form-control" name="class" value="" required autofocus>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" onclick="insertCourse()">Insert</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </form>
+                 <!-- 内容主体end -->
+                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Update  -->
+    <div class="modal fade" id="UpdateCourse" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true"></button>
+                    <h4 class="modal-title" id="myModalLabel">Update Course</h4>
+                 </div>
+                 <div class="modal-body">
+                 <!-- 内容主体begin -->
+                 <form action="" >
+                    <div class="form-group">
+                        <label for="id">course_id</label>
+                        <input id="u_id" type="text" class="form-control" name="id" value="" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">name</label>
+                        <input id="u_name" type="text" class="form-control" name="name" value="" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="sex">teacher_id</label>
+                        <input id="u_teacher_id" type="text" class="form-control" name="sex" value="" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="entrance_age">credit</label>
+                        <input id="u_credit" type="text" class="form-control" name="entrance_age" value="" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="entrance_year">grade</label>
+                        <input id="u_grade" type="text" class="form-control" name="entrance_year" value="" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="class">canceled_year</label>
+                        <input id="u_canceled_year" type="text" class="form-control" name="class" value="" required autofocus>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="updateCourse()">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </form>
+                 <!-- 内容主体end -->
+                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Search -->
+    <div class="modal fade" id="searchCourse" tabindex="-1" role="dialog"
+     aria-hidden="true">
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal"
+                     aria-hidden="true"></button>
+                 <h4 class="modal-title" id="myModalLabel">Search Course</h4>
+              </div>
+              <div class="modal-body">
+              <!-- 内容主体begin -->
+                 <form action="" >
+                     <div class="form-group">
+                         <label for="id">ID</label>
+                         <input id="f_id" type="text" class="form-control" name="id" value="" required autofocus>
+                     </div>
+                     <div class="form-group">
+                         <label for="name">name</label>
+                         <input id="f_name" type="text" class="form-control" name="name" value="" required autofocus>
+                     </div>
+
+
+                     <button type="button" class="btn btn-primary" onclick="searchCourse()">Search</button>
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                 </form>
+              <!-- 内容主体end -->
+              </div>
+         </div>
+     </div>
+ </div>
+
+
+
+<script src="../js/opCourse.js"></script>
+</body>
+</html>

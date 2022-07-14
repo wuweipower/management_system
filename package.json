@@ -1,0 +1,20 @@
+{
+  "name": "js_db",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "admin.js",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "hx",
+  "license": "ISC",
+  "description": ""
+}
